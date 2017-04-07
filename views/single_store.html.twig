@@ -1,5 +1,5 @@
 {% include 'top.html.twig' %}
-
+{% if store is not empty %}
 <h3>Here is the information about {{ store.getStoreName }}:</h3>
 {% if brands is not empty %}
 <h4>Here are the shoes they carry:</h4>
@@ -10,17 +10,28 @@
 {% else %}
 <h3>Sorry!  There are no brands in this store!</h3>
 {% endif %}
+{% endif %}
 <br>
-<br>
-<form action="/edit_store" method="post">
+<form action="/add_brand/{{ store.getStoreId }}" method="post">
   <div class="form-group">
-    <input type="hidden" >
-    <label for="store_name">Edit the Store Name Here:</label>
-    <input class="form-control" type="store_name" name="store_name" placeholder="new store name">
+    <label for="brand_name">Add a Brand to this Store</label>
+    <input class="form-control" type="brand_name" name="brand_name" placeholder="new brand name">
   </div>
   <button type="submit" name="button">Submit</button>
 </form>
-<form action="/delete_store" method="post">
+<br>
+<br>
+<form action="/edit_store/{{ store.getStoreId }}" method="post">
+  <div class="form-group">
+    <input type="hidden" name="_method" value="patch">
+    <label for="store_name">Edit the Store Name Here:</label>
+    <input class="form-control" type="store_name" name="store_name" placeholder="new store name">
+  </div>
+  <button type="submit" name="button">Edit</button>
+</form>
+<br>
+<form action="/delete_store/{{ store.getStoreId }}" method="post">
+  <input type="hidden" name="_method" value="delete">
   <button type="submit" name="button">Remove Store</button>
 </form>
 <h4><a href="/all_brands">See all Brands</a></h4>

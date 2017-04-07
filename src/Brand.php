@@ -99,6 +99,15 @@
               return false;
             }
         }
+        static function checkBrands() {
+            $brands = array();
+            $executed = $GLOBALS['DB']->query("SELECT * FROM brands;");
+            $results = $executed->fetchAll(PDO::FETCH_ASSOC);
+            foreach($results as $result){
+             array_push($brands, $result['brand_name']);
+            }
+            return $brands;
+        }
 
 
 

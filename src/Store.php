@@ -114,6 +114,15 @@
               return false;
             }
         }
+        static function checkStores() {
+            $stores = array();
+            $executed = $GLOBALS['DB']->query("SELECT * FROM stores;");
+            $results = $executed->fetchAll(PDO::FETCH_ASSOC);
+            foreach($results as $result){
+             array_push($stores, $result['store_name']);
+            }
+            return $stores;
+        }
 
 
 

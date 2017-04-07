@@ -1,0 +1,27 @@
+{% include 'top.html.twig' %}
+{% if brand is not empty %}
+<h3>Here is the information about {{ brand.getBrandName }}:</h3>
+{% if stores is not empty %}
+<h4>Here are the stores that carry {{ brand.getBrandName }}:</h4>
+
+{% for store in stores %}
+<li><a href="/single_store/{{ store.getStoreId }}">{{ store.getStoreName }}</a></li>
+{% endfor %}
+{% else %}
+<h3>Sorry!  There are no stores that carry this brand!</h3>
+{% endif %}
+{% endif %}
+<br>
+<form action="/add_store/{{ brand.getBrandId }}" method="post">
+  <div class="form-group">
+    <label for="store_name">Add a Store that carries this Brand</label>
+    <input class="form-control" type="store_name" name="store_name" placeholder="new store name">
+  </div>
+  <button type="submit" name="button">Submit</button>
+</form>
+<br>
+<br>
+<h4><a href="/all_brands">See all Brands</a></h4>
+<h4><a href="/all_stores">See all Stores</a></h4>
+<h4><a href="/">Home</a></h4>
+{% include 'bottom.html.twig' %}
