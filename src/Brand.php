@@ -108,6 +108,15 @@
             }
             return $brands;
         }
+        static function checkStoresThatCarryBrand($brand_id) {
+            $stores = array();
+            $executed = $GLOBALS['DB']->query("SELECT stores.* FROM stores JOIN brands_stores ON (brands_stores.store_id = stores.id) JOIN brands ON (brands_stores.brand_id = brands.id) WHERE brands.id = {$brand_id};");
+            $results = $executed->fetchAll(PDO::FETCH_ASSOC);
+            foreach($results as $result){
+             array_push($stores, $result['store_name']);
+            }
+            return $stores;
+        }
 
 
 

@@ -123,6 +123,15 @@
             }
             return $stores;
         }
+        static function checkBrandsInStore($store_id) {
+            $brands = array();
+            $executed = $GLOBALS['DB']->query("SELECT brands.* FROM brands JOIN brands_stores ON (brands_stores.brand_id = brands.id) JOIN stores ON (brands_stores.store_id = stores.id) WHERE stores.id = {$store_id};");
+            $results = $executed->fetchAll(PDO::FETCH_ASSOC);
+            foreach($results as $result){
+             array_push($brands, $result['brand_name']);
+            }
+            return $brands;
+        }
 
 
 

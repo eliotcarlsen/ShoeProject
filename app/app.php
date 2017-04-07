@@ -26,14 +26,19 @@
       return $app['twig']->render('all_brands.html.twig', array('brands'=>Brand::getAll()));
   });
   $app->post("/add_brand", function() use($app){
-      $brands = Brand::checkBrands();
-      #might need to do something here to not allow multiple brand entries
-      $brand = new Brand($_POST['brand_name']);
-      $brand->save();
-      $store = new Store($_POST['store_name']);
-      $store->save();
-      $store->addBrand($brand->getBrandId());
-      return $app['twig']->render('all_brands.html.twig', array('brands'=>Brand::getAll()));
+      $brands_array = Brand::checkBrands();
+      $stores_array = Store::checkStores();
+      if (in_array($_POST['brand_name'], $brands_array) && (in_array($_POST['store_name'], $stores_array)))
+      {
+          return $app['twig']->render('all_brands.html.twig', array('brands'=>Brand::getAll()));
+      } else {
+          $brand = new Brand($_POST['brand_name']);
+          $brand->save();
+          $store = new Store($_POST['store_name']);
+          $store->save();
+          $store->addBrand($brand->getBrandId());
+          return $app['twig']->render('all_brands.html.twig', array('brands'=>Brand::getAll()));
+      }
   });
   $app->get("/single_brand/{id}", function($id) use($app){
       $brand = Brand::find($id);
@@ -42,11 +47,18 @@
   });
   $app->post("/add_store/{id}", function($id) use($app){
       $brand = Brand::find($id);
-      $store = new Store($_POST['store_name']);
-      $store->save();
-      $brand->addStore($store->getStoreId());
-      $stores = $brand->findStores();
-      return $app['twig']->render('single_brand.html.twig', array('brand'=>$brand, 'stores'=>$stores));
+      $stores_array = $brand->checkStoresThatCarryBrand($id);
+      if (in_array($_POST['store_name'], $stores_array))
+      {
+          $stores = $brand->findStores();
+          return $app['twig']->render('single_brand.html.twig', array('brand'=>$brand, 'stores'=>$stores));
+      } else {
+          $store = new Store($_POST['store_name']);
+          $store->save();
+          $brand->addStore($store->getStoreId());
+          $stores = $brand->findStores();
+          return $app['twig']->render('single_brand.html.twig', array('brand'=>$brand, 'stores'=>$stores));
+      }
   });
   $app->get("/all_stores", function() use($app){
       return $app['twig']->render('all_stores.html.twig', array('stores'=>Store::getAll()));
@@ -64,11 +76,18 @@
   });
   $app->post("/add_brand/{id}", function($id) use($app){
       $store = Store::find($id);
-      $brand = new Brand($_POST['brand_name']);
-      $brand->save();
-      $store->addBrand($brand->getBrandId());
-      $brands = $store->findBrands();
-      return $app['twig']->render('single_store.html.twig', array('store'=>$store, 'brands'=>$brands));
+      $stores = $store->checkBrandsInStore($store->getStoreId());
+      if (in_array($_POST['brand_name'], $stores))
+      {
+        $brands = $store->findBrands();
+        return $app['twig']->render('single_store.html.twig', array('store'=>$store, 'brands'=>$brands));
+      } else {
+          $brand = new Brand($_POST['brand_name']);
+          $brand->save();
+          $store->addBrand($brand->getBrandId());
+          $brands = $store->findBrands();
+          return $app['twig']->render('single_store.html.twig', array('store'=>$store, 'brands'=>$brands));
+      }
   });
   $app->get("/single_store/{id}", function($id) use($app){
       $store = Store::find($id);
