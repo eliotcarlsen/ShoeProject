@@ -47,10 +47,14 @@
         static function deleteAll()
         {
             $executed = $GLOBALS['DB']->exec("DELETE FROM stores;");
-            if ($executed) {
-              return true;
-            } else {
+            if (!$executed) {
               return false;
+            }
+            $executed = $GLOBALS['DB']->exec("DELETE FROM brands_stores;");
+            if (!$executed){
+              return false;
+            } else {
+              return true;
             }
         }
         function update($new_store_name)
@@ -77,6 +81,16 @@
               }
             }
         }
+        function delete()
+        {
+            $executed = $GLOBALS['DB']->exec("DELETE FROM stores WHERE id = {$this->getStoreId()};");
+            if ($executed) {
+              return true;
+            } else {
+              return false;
+            }
+        }
+
 
 
 
