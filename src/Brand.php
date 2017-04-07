@@ -23,7 +23,7 @@
         }
         function save()
         {
-            $executed = $GLOBALS['DB']->exec("INSERT INTO brands (brand_name, id) VALUES ('{$this->getName()}')");
+            $executed = $GLOBALS['DB']->exec("INSERT INTO brands (brand_name) VALUES ('{$this->getBrandName()}')");
             if($executed){
               $this->id = $GLOBALS['DB']->lastInsertId();
               return true;
@@ -46,7 +46,7 @@
         }
         static function deleteAll()
         {
-            $executed = $GLOBALS['DB']->exec("DELETE * FROM brands;");
+            $executed = $GLOBALS['DB']->exec("DELETE FROM brands;");
             if ($executed)
             {
               return true;

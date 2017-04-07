@@ -23,7 +23,7 @@
         }
         function save()
         {
-            $executed = $GLOBALS['DB']->exec("INSERT INTO stores (store_name, id) VALUES ('{$this->getName()}')");
+            $executed = $GLOBALS['DB']->exec("INSERT INTO stores (store_name) VALUES ('{$this->getStoreName()}')");
             if($executed){
               $this->id = $GLOBALS['DB']->lastInsertId();
               return true;
@@ -40,13 +40,13 @@
               $name = $store['store_name'];
               $id = $store['id'];
               $new_store_name = new Store($name, $id);
-              array_push($store, $new_store_name);
+              array_push($stores, $new_store_name);
             }
             return $stores;
         }
         static function deleteAll()
         {
-            $executed = $GLOBALS['DB']->exec("DELETE * FROM stores;");
+            $executed = $GLOBALS['DB']->exec("DELETE FROM stores;");
             if ($executed) {
               return true;
             } else {
