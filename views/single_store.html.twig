@@ -15,7 +15,7 @@
 <form action="/add_brand/{{ store.getStoreId }}" method="post">
   <div class="form-group">
     <label for="brand_name">Add a Brand to this Store</label>
-    <input class="form-control" type="brand_name" name="brand_name" placeholder="new brand name">
+    <input class="form-control" type="brand_name" name="brand_name" placeholder="new brand name" required>
   </div>
   <button type="submit" name="button">Submit</button>
 </form>
@@ -25,7 +25,7 @@
   <div class="form-group">
     <input type="hidden" name="_method" value="patch">
     <label for="store_name">Edit the Store Name Here:</label>
-    <input class="form-control" type="store_name" name="store_name" placeholder="new store name">
+    <input class="form-control" type="store_name" name="store_name" placeholder="new store name" required>
   </div>
   <button type="submit" name="button">Edit</button>
 </form>

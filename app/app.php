@@ -40,6 +40,14 @@
       $stores = $brand->findStores();
       return $app['twig']->render('single_brand.html.twig', array('brand'=>$brand, 'stores'=>$stores));
   });
+  $app->post("/add_store/{id}", function($id) use($app){
+      $brand = Brand::find($id);
+      $store = new Store($_POST['store_name']);
+      $store->save();
+      $brand->addStore($store->getStoreId());
+      $stores = $brand->findStores();
+      return $app['twig']->render('single_brand.html.twig', array('brand'=>$brand, 'stores'=>$stores));
+  });
   $app->get("/all_stores", function() use($app){
       return $app['twig']->render('all_stores.html.twig', array('stores'=>Store::getAll()));
   });
