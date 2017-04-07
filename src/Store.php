@@ -57,15 +57,27 @@
         {
             $executed = $GLOBALS['DB']->exec("UPDATE stores SET store_name = '{$new_store_name}' WHERE id = {$this->getStoreId()};");
             if ($executed){
+              $this->setStoreName($new_store_name);
               return true;
             } else {
               return false;
             }
         }
-        function findStore($id)
+        static function find($id)
         {
-
+            $returned_stores = $GLOBALS['DB']->prepare("SELECT * FROM stores WHERE id = :id");
+            $returned_stores->bindParam(':id', $id, PDO::PARAM_STR);
+            $returned_stores->execute();
+            foreach($returned_stores as $store){
+              $name = $store['store_name'];
+              $store_id = $store['id'];
+              if($store_id == $id){
+                $found_store = new Store($name, $store_id);
+                return $found_store;
+              }
+            }
         }
+
 
 
 

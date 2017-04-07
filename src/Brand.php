@@ -58,11 +58,28 @@
         {
             $executed = $GLOBALS['DB']->exec("UPDATE brands SET brand_name = '{$new_brand_name}' WHERE id = {$this->getBrandId()};");
             if ($executed){
+              $this->setBrandName($new_brand_name);
               return true;
             } else {
               return false;
             }
         }
+        static function find($id)
+        {
+            $returned_brands = $GLOBALS['DB']->prepare("SELECT * FROM brands WHERE id = :id");
+            $returned_brands->bindParam(':id', $id, PDO::PARAM_STR);
+            $returned_brands->execute();
+            foreach($returned_brands as $brand){
+              $name = $brand['brand_name'];
+              $brand_id = $brand['id'];
+              if($brand_id == $id){
+                $found_brand = new Brand($name, $id);
+                return $found_brand;
+              }
+            }
+        }
+
+
 
 
 

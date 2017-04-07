@@ -40,5 +40,23 @@ class BrandTest extends PHPUnit_Framework_TestCase
       $result = Brand::getAll();
       $this->assertEquals([$brand, $brand2], $result);
   }
+  function test_update()
+  {
+      $brand = new Brand("footlocker");
+      $brand->save();
+      $newname = "ross";
+      $brand->update($newname);
+      $result = $brand->getBrandName();
+      $this->assertEquals($newname, $result);
+  }
+  function test_find()
+  {
+      $brand = new Brand("footlocker");
+      $brand->save();
+      $brand2 = new Brand("ross");
+      $brand2->save();
+      $result = Brand::find($brand2->getBrandId());
+      $this->assertEquals($brand2, $result);
+  }
 }
 ?>
