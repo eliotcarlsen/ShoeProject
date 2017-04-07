@@ -20,6 +20,12 @@ Program allows user to add store to individual brand page.
 
 
 MySQL Commands:
+create database shoes;
+Used myphpadmin:
+created 3 tables;
+2 tables have 2 columns;
+join table has 3 columns;
+
 
 Download or clone project files
 Run Composer Install or Composer Update in terminal
