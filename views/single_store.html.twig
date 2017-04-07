@@ -1,0 +1,28 @@
+{% include 'top.html.twig' %}
+
+<h3>Here is the information about {{ store.getStoreName }}:</h3>
+{% if brands is not empty %}
+<h4>Here are the shoes they carry:</h4>
+
+{% for brand in brands %}
+<li><a href="/single_brand/{{ brand.getBrandId }}">{{ brand.getBrandName }}</a></li>
+{% endfor %}
+{% else %}
+<h3>Sorry!  There are no brands in this store!</h3>
+{% endif %}
+<br>
+<br>
+<form action="/edit_store" method="post">
+  <div class="form-group">
+    <input type="hidden" >
+    <label for="store_name">Edit the Store Name Here:</label>
+    <input class="form-control" type="store_name" name="store_name" placeholder="new store name">
+  </div>
+  <button type="submit" name="button">Submit</button>
+</form>
+<form action="/delete_store" method="post">
+  <button type="submit" name="button">Remove Store</button>
+</form>
+<h4><a href="/all_brands">See all Brands</a></h4>
+<h4><a href="/">Home</a></h4>
+{% include 'bottom.html.twig' %}

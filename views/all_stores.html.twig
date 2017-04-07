@@ -1,0 +1,21 @@
+{% include 'top.html.twig' %}
+{% if stores is not empty %}
+<h3>Here are the shoe stores in your area:</h3>
+{% for store in stores %}
+<li><a href="/single_store/{{ store.getStoreId }}">{{ store.getStoreName }}</a></li>
+{% endfor %}
+{% else %}
+<h3>Sorry!  There are no Stores in your Area!</h3>
+{% endif %}
+<br>
+<br>
+<form action="/add_store" method="post">
+  <div class="form-group">
+    <label for="store_name">Add a Store Name Here:</label>
+    <input class="form-control" type="store_name" name="store_name" placeholder="store name" required>
+  </div>
+  <button type="submit" name="button">Submit</button>
+</form>
+<h4><a href="/all_brands">See all Brands</a></h4>
+<h4><a href="/">Home</a></h4>
+{% include 'bottom.html.twig' %}

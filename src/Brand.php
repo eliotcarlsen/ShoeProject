@@ -80,10 +80,10 @@
         }
         function findStores()
         {
-            $returned_stores = $GLOBALS['DB']->query("SELECT stores.* FROM stores JOIN brands_stores ON (brands_stores.store_id = stores.id) JOIN brands ON (brands_stores.brand_id = brands.id) WHERE id = {$this->getBrandId()};");
+            $returned_stores = $GLOBALS['DB']->query("SELECT stores.* FROM stores JOIN brands_stores ON (brands_stores.store_id = stores.id) JOIN brands ON (brands_stores.brand_id = brands.id) WHERE brands.id = {$this->getBrandId()};");
             $stores = array();
             foreach($returned_stores as $store) {
-              $name = $store['name'];
+              $name = $store['store_name'];
               $id = $store['id'];
               $new_store = new Store($name, $id);
               array_push($stores, $new_store);

@@ -1,0 +1,25 @@
+{% include 'top.html.twig' %}
+{% if brands is not empty %}
+<h3>Here are the shoe brands in your area:</h3>
+{% for brand in brands %}
+<li><a href="/single_brand/{{ brand.getBrandId }}">{{ brand.getBrandName }}</a></li>
+{% endfor %}
+{% else %}
+<h3>Sorry!  There are no Brands in your Area!</h3>
+{% endif %}
+<br>
+<br>
+<form action="/add_brand" method="post">
+  <div class="form-group">
+    <label for="brand_name">Add a Brand Name Here:</label>
+    <input class="form-control" type="brand_name" name="brand_name" placeholder="brand name" required>
+  </div>
+  <div class="form-group">
+    <label for="store_name">What Store carries this Brand?</label>
+    <input class="form-control" type="store_name" name="store_name" placeholder="store name" required>
+  </div>
+  <button type="submit" name="button">Submit</button>
+</form>
+<h4><a href="/all_stores">See all Stores</a></h4>
+<h4><a href="/">Home</a></h4>
+{% include 'bottom.html.twig' %}
