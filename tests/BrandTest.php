@@ -80,5 +80,12 @@ class BrandTest extends PHPUnit_Framework_TestCase
       $newstore->addBrand($newbrand->getBrandId());
       $this->assertTrue(true, "this store was not added");
   }
+  function test_findBrandName()
+  {
+      $newbrand = new Brand("nike");
+      $newbrand->save();
+      $result = Brand::findBrandName("nike");
+      $this->assertEquals($result, $newbrand);
+  }
 }
 ?>

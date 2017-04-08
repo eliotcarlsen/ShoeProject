@@ -31,12 +31,20 @@
       if (in_array($_POST['brand_name'], $brands_array) && (in_array($_POST['store_name'], $stores_array)))
       {
           return $app['twig']->render('all_brands.html.twig', array('brands'=>Brand::getAll()));
-      } else {
-          $brand = new Brand($_POST['brand_name']);
-          $brand->save();
+      } elseif (in_array($_POST['brand_name'], $brands_array) && (in_array($_POST['store_name'], $stores_array) == 0))
+      {
+          $brand_name = Brand::findBrandName($_POST['brand_name']);
+          $brand_id = $brand_name->getBrandId();
           $store = new Store($_POST['store_name']);
           $store->save();
-          $store->addBrand($brand->getBrandId());
+          $store->addBrand($brand_id);
+          return $app['twig']->render('all_brands.html.twig', array('brands'=>Brand::getAll()));
+      } elseif (in_array($_POST['store_name'], $stores_array) && (in_array($_POST['brand_name'], $brands_array) == 0))
+      {
+          $store_name = Store::findStoreName($_POST['store_name']);
+          $brand = new Brand($_POST['brand_name']);
+          $brand->save();
+          $brand->addStore($store_name->getStoreId());
           return $app['twig']->render('all_brands.html.twig', array('brands'=>Brand::getAll()));
       }
   });

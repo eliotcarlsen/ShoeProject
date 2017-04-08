@@ -78,6 +78,20 @@
               }
             }
         }
+        static function findBrandName($brand_name)
+        {
+            $returned_brands = $GLOBALS['DB']->prepare("SELECT * FROM brands WHERE brand_name = :name;");
+            $returned_brands->bindParam(':name', $brand_name, PDO::PARAM_STR);
+            $returned_brands->execute();
+            foreach($returned_brands as $brand){
+              $name = $brand['brand_name'];
+              $brand_id = $brand['id'];
+              if($name == $brand_name){
+                $found_brand = new Brand($name, $brand_id);
+                return $found_brand;
+              }
+            }
+        }
         function findStores()
         {
             $returned_stores = $GLOBALS['DB']->query("SELECT stores.* FROM stores JOIN brands_stores ON (brands_stores.store_id = stores.id) JOIN brands ON (brands_stores.brand_id = brands.id) WHERE brands.id = {$this->getBrandId()};");

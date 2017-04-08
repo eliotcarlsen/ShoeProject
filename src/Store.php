@@ -81,6 +81,20 @@
               }
             }
         }
+        static function findStoreName($store_name)
+        {
+            $returned_stores = $GLOBALS['DB']->prepare("SELECT * FROM stores WHERE store_name = :store");
+            $returned_stores->bindParam(':store', $store_name, PDO::PARAM_STR);
+            $returned_stores->execute();
+            foreach($returned_stores as $store){
+              $name = $store['store_name'];
+              $store_id = $store['id'];
+              if($name == $store_name){
+                $found_store = new Store($name, $store_id);
+                return $found_store;
+              }
+            }
+        }
         function delete()
         {
             $executed = $GLOBALS['DB']->exec("DELETE FROM stores WHERE id = {$this->getStoreId()};");
